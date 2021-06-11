@@ -2,8 +2,9 @@ import uuid
 import os
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, \
-                                        PermissionsMixin
+    PermissionsMixin
 from django.conf import settings
+from django.db.models.fields import DecimalField
 
 
 def recipe_image_file_path(instance, filename):
@@ -88,3 +89,17 @@ class Recipe(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Restaurant(models.Model):
+    """Restaurant Object"""
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             on_delete=models.CASCADE)
+    name = models.CharField(max_length=255)
+    address = models.CharField(max_length=255)
+    image = models.ImageField(null=True, upload_to=recipe_image_file_path
+                              )
+    mobile = models.CharField(max_length=10)
+
+    def __str__(self):
+        return self.name
